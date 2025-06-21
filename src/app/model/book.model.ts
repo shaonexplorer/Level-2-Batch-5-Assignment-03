@@ -54,4 +54,12 @@ bookSchema.post("findOneAndDelete", async function (doc, next) {
   next();
 });
 
+bookSchema.post("findOneAndUpdate", async function (doc, next) {
+  if (doc.copies > 0) {
+    doc.available = true;
+    await doc.save();
+  }
+  next();
+});
+
 export const Book = model<IBook>("Book", bookSchema);

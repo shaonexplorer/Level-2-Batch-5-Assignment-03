@@ -98,7 +98,7 @@ BookRouter.put(
     try {
       const bookId = req.params.bookId;
 
-      const newBook = await Book.findByIdAndUpdate(bookId, req.body, {
+      const newBook = await Book.findOneAndUpdate({ _id: bookId }, req.body, {
         new: true,
       });
 
