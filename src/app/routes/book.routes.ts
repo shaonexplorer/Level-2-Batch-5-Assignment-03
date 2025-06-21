@@ -100,6 +100,7 @@ BookRouter.put(
 
       const newBook = await Book.findOneAndUpdate({ _id: bookId }, req.body, {
         new: true,
+        runValidators: true,
       });
 
       if (!newBook) {
