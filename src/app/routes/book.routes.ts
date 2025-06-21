@@ -12,6 +12,7 @@ BookRouter.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const newBook = await Book.create(req.body);
+
       res.status(201).json({
         success: true,
         message: "Book created successfully",
@@ -39,11 +40,19 @@ BookRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
       const booksByGenre = await Book.find({ genre })
         .sort({ [field]: order })
         .limit(Number(limit));
+
+      if (booksByGenre.length === 0) {
+        throw new Error("No books found");
+      }
       newBook = booksByGenre;
     } else {
       newBook = await Book.find()
         .sort({ [field]: order })
         .limit(Number(limit));
+
+      if (newBook.length === 0) {
+        throw new Error("No books found");
+      }
     }
 
     res.status(200).json({
