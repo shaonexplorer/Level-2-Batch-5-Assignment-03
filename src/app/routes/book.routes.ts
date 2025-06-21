@@ -102,6 +102,10 @@ BookRouter.put(
         new: true,
       });
 
+      if (!newBook) {
+        throw new Error("Book not found");
+      }
+
       res.status(200).json({
         success: true,
         message: "Book updated successfully",
@@ -122,6 +126,10 @@ BookRouter.delete(
       const bookId = req.params.bookId;
 
       const newBook = await Book.findByIdAndDelete(bookId);
+
+      if (!newBook) {
+        throw new Error("Book not found");
+      }
 
       res.status(200).json({
         success: true,
