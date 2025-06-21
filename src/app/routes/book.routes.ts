@@ -1,6 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import { Book } from "../model/book.model";
 import mongoose from "mongoose";
+import { error } from "console";
 
 const BookRouter = express.Router();
 
@@ -64,6 +65,10 @@ BookRouter.get(
       const bookId = req.params.bookId;
 
       const newBook = await Book.findById(bookId);
+
+      if (!newBook) {
+        throw new Error("Book not found");
+      }
 
       res.status(200).json({
         success: true,
