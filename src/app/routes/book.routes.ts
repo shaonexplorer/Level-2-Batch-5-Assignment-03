@@ -125,7 +125,7 @@ BookRouter.delete(
     try {
       const bookId = req.params.bookId;
 
-      const newBook = await Book.findByIdAndDelete(bookId);
+      const newBook = await Book.findOneAndDelete({ _id: bookId });
 
       if (!newBook) {
         throw new Error("Book not found");

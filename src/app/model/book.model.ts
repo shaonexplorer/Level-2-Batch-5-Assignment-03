@@ -1,5 +1,6 @@
 import { model, Schema } from "mongoose";
 import { IBook } from "../interface/book.interface";
+import { Borrow } from "./borrow.model";
 
 const bookSchema = new Schema<IBook>(
   {
@@ -45,6 +46,12 @@ const bookSchema = new Schema<IBook>(
 bookSchema.method("setUnavailable", function () {
   this.available = false;
   return this.save();
+});
+
+bookSchema.post("findOneAndDelete", async function (doc, next) {
+  const id = doc._id;
+  await Borrow.deleteMany({ book: id });
+  next();
 });
 
 export const Book = model<IBook>("Book", bookSchema);

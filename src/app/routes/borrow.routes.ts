@@ -15,6 +15,10 @@ BorrowRouter.post(
 
       const bookBorrowed = (await Book.findById(book)) as any;
 
+      if (!bookBorrowed) {
+        throw new Error("Book not found");
+      }
+
       let borrow;
 
       if (bookBorrowed.copies >= quantity) {
@@ -55,6 +59,10 @@ BorrowRouter.get(
           },
         },
       ]);
+
+      if (borrow.length === 0) {
+        throw new Error("No borrowed books found");
+      }
 
       res.status(200).json({
         success: true,
