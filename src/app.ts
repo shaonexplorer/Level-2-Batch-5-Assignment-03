@@ -1,4 +1,5 @@
 import "dotenv/config";
+import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 import BookRouter from "./app/routes/book.routes";
 import BorrowRouter from "./app/routes/borrow.routes";
@@ -6,6 +7,8 @@ import BorrowRouter from "./app/routes/borrow.routes";
 const app = express();
 
 app.use(express.json());
+
+app.use(cors());
 
 app.get("/", (req: Request, res: Response, next: NextFunction) => {
   try {
