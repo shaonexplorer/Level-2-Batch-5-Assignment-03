@@ -45,9 +45,17 @@ BookRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
         throw new Error("No books found");
       }
       newBook = booksByGenre;
-    } else {
+    } else if (field) {
       newBook = await Book.find()
         .sort({ [field]: order })
+        .limit(Number(limit));
+
+      if (newBook.length === 0) {
+        throw new Error("No books found");
+      }
+    } else {
+      newBook = await Book.find()
+        .sort({ createdAt: "desc" })
         .limit(Number(limit));
 
       if (newBook.length === 0) {
